@@ -1,6 +1,7 @@
 ﻿using Harvester.Engine.Modules;
 using Harvester.Debugger;
 using ZzukBot.Game.Statics;
+using ZzukBot.Helpers;
 
 namespace Harvester.Engine
 {
@@ -32,6 +33,7 @@ namespace Harvester.Engine
                     {
                         ObjectManager.Player.CtmStopMovement();
                         NodeScanModule.ClosestHerbNode().Interact(true);
+                        Wait.For("harvest", 500);
                     }
                 }
 
