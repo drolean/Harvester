@@ -28,12 +28,13 @@ namespace Harvester.Engine
                 if (NodeScanModule.ClosestNode() != null)
                 {
                     PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
+                    PathModule.index = -1;
 
                     if (NodeScanModule.ClosestNode().Position.DistanceToPlayer() <= 2)
                     {
                         ObjectManager.Player.CtmStopMovement();
 
-                        if (ObjectManager.Player.CastingAsName != "Gathering" 
+                        if (ObjectManager.Player.CastingAsName != "Herb Gathering" 
                             && ObjectManager.Player.CastingAsName != "Mining")
                             NodeScanModule.ClosestNode().Interact(true);
 

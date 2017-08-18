@@ -36,7 +36,7 @@
             // 
             // LoadProfileButton
             // 
-            this.LoadProfileButton.Location = new System.Drawing.Point(264, 248);
+            this.LoadProfileButton.Location = new System.Drawing.Point(286, 282);
             this.LoadProfileButton.Name = "LoadProfileButton";
             this.LoadProfileButton.Size = new System.Drawing.Size(75, 23);
             this.LoadProfileButton.TabIndex = 0;
@@ -84,7 +84,7 @@
             "Black Lotus"});
             this.Herbs.Location = new System.Drawing.Point(12, 12);
             this.Herbs.Name = "Herbs";
-            this.Herbs.Size = new System.Drawing.Size(120, 259);
+            this.Herbs.Size = new System.Drawing.Size(139, 259);
             this.Herbs.TabIndex = 1;
             this.Herbs.MouseLeave += new System.EventHandler(this.HerbCheckListBox_MouseLeave);
             // 
@@ -93,25 +93,25 @@
             this.Mines.CheckOnClick = true;
             this.Mines.FormattingEnabled = true;
             this.Mines.Items.AddRange(new object[] {
-            "Copper",
-            "Tin",
-            "Silver",
-            "Ooze Silver",
-            "Iron",
-            "Gold",
-            "Ooze Gold",
-            "Mithril",
-            "Ooze Mithril",
-            "Truesilver",
-            "Ooze Truesilver",
-            "Small Thorium",
-            "Ooze Small Thorium",
-            "Rich Thorium",
-            "Ooze Rich Thorium"});
-            this.Mines.Location = new System.Drawing.Point(138, 12);
+            "Copper Vein",
+            "Tin Vein",
+            "Silver Vein",
+            "Ooze Covered Silver Vein",
+            "Iron Deposit",
+            "Gold Vein",
+            "Ooze Covered Gold Vein",
+            "Mithril Deposit",
+            "Ooze Covered Mithril Deposit",
+            "Truesilver Deposit",
+            "Ooze Covered Truesilver Deposit",
+            "Small Thorium Vein",
+            "Ooze Covered Rich Thorium Vein",
+            "Rich Thorium Vein",
+            "Ooze Covered Rich Thorium Vein"});
+            this.Mines.Location = new System.Drawing.Point(157, 12);
             this.Mines.Name = "Mines";
             this.Mines.ScrollAlwaysVisible = true;
-            this.Mines.Size = new System.Drawing.Size(120, 259);
+            this.Mines.Size = new System.Drawing.Size(204, 259);
             this.Mines.TabIndex = 2;
             this.Mines.MouseLeave += new System.EventHandler(this.MineCheckListBox_MouseLeave);
             // 
@@ -119,7 +119,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(351, 283);
+            this.ClientSize = new System.Drawing.Size(375, 317);
             this.Controls.Add(this.Mines);
             this.Controls.Add(this.Herbs);
             this.Controls.Add(this.LoadProfileButton);
