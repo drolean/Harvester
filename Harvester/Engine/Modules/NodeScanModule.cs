@@ -43,13 +43,10 @@ namespace Harvester.Engine.Modules
             List<WoWGameObject> mineNodes = ObjectManager.GameObjects
                 .Where(x => x.GatherInfo.Type == Enums.GatherType.Mining).ToList();
 
-            List<string> herbCheckedBoxes = CMD.herbCheckedBoxes;
-            List<string> mineCheckedBoxes = CMD.mineCheckedBoxes;
-
             herbNodes = herbNodes.Where(x => /*x.GatherInfo.RequiredSkill <= HerbLevel() 
-                    &&*/ herbCheckedBoxes.Any(y => y == x.Name)).ToList();
+                    &&*/ CMD.herbCheckedBoxes.Any(y => y == x.Name)).ToList();
             mineNodes = mineNodes.Where(x => /*x.GatherInfo.RequiredSkill <= MineLevel() 
-                    &&*/ mineCheckedBoxes.Any(y => y == x.Name)).ToList();
+                    &&*/ CMD.mineCheckedBoxes.Any(y => y == x.Name)).ToList();
 
             if (herbNodes.Any() && mineNodes.Any())
                 return herbNodes.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();

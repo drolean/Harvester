@@ -45,7 +45,7 @@ namespace Harvester.GUI
 
             foreach (var item in Mines.CheckedItems)
             {
-                if (Herbs.GetItemCheckState(Mines.Items.IndexOf(item)) == CheckState.Checked)
+                if (Mines.GetItemCheckState(Mines.Items.IndexOf(item)) == CheckState.Checked)
                     mineCheckedBoxes.Add(item.ToString());
             }
         }
