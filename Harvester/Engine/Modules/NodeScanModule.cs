@@ -51,13 +51,13 @@ namespace Harvester.Engine.Modules
             mineNodes = mineNodes.Where(x => /*x.GatherInfo.RequiredSkill <= MineLevel() 
                     &&*/ mineCheckedBoxes.Any(y => y == x.Name)).ToList();
 
-            if (herbNodes?.Any() == true && mineNodes?.Any() == false)
+            if (herbNodes.Any() && mineNodes.Any())
                 return herbNodes.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
 
-            if (herbNodes?.Any() == false && mineNodes?.Any() == true)
+            if (!herbNodes.Any() && mineNodes.Any())
                 return mineNodes.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
 
-            return herbNodes.Union(mineNodes).OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
+            return herbNodes.Concat(mineNodes).OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
         }
     }
 }
