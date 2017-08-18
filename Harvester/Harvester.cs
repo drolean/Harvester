@@ -39,7 +39,7 @@ namespace Harvester
 
         public string Author { get; } = "krycess";
         public string Name { get; } = "Harvester";
-        public Version Version { get; } = new Version(0, 1, 5, 316);
+        public Version Version { get; } = new Version(0, 1, 6, 121);
 
         public void ShowGui()
         {
