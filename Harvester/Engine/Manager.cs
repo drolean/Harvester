@@ -33,7 +33,7 @@ namespace Harvester.Engine
                 if (running) return false;
                 if (!ObjectManager.IsIngame) return false;
                 if (ObjectManager.Player == null) return false;
-                //try { if (ProfileLoader.hotspots == null) return false; } catch { return false; }
+                try { if (ProfileLoader.hotspots == null) return false; } catch { return false; }
                 if (!CCLoader.LoadCustomClass(ObjectManager.Player.Class)) return false;
                 running = true;
             }

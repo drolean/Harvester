@@ -26,17 +26,24 @@ namespace Harvester.Engine
                 CombatModule.FightMob();
             if (!ObjectManager.Player.IsInCombat)
             {
+                Logger logger = new Logger();
+
+                logger.LogOne(NodeScanModule.HerbLevel().ToString());
+
                 if (NodeScanModule.ClosestHerbNode() != null)
                 {
                     PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestHerbNode().Position));
+
                     if (NodeScanModule.ClosestHerbNode().Position.DistanceToPlayer() <= 2)
                     {
                         ObjectManager.Player.CtmStopMovement();
-                        NodeScanModule.ClosestHerbNode().Interact(true);
-                        Wait.For("harvest", 500);
+                        NodeScanModule.ClosestHerbNode().Interact(false);
+                        Wait.For("harvest", 5000);
                     }
                 }
 
+                if (NodeScanModule.ClosestHerbNode() == null)
+                    PathModule.Traverse(PathModule.Path(PathModule.GetNextHotspot()));
             }
         }
     }
