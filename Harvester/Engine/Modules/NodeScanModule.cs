@@ -46,23 +46,18 @@ namespace Harvester.Engine.Modules
             List<string> herbCheckedBoxes = CMD.herbCheckedBoxes;
             List<string> mineCheckedBoxes = CMD.mineCheckedBoxes;
 
-            if (herbNodes?.Any() == true && mineNodes?.Any() == false)
-            {
-                herbNodes = herbNodes.Where(x => /*x.GatherInfo.RequiredSkill <= HerbLevel() 
+            herbNodes = herbNodes.Where(x => /*x.GatherInfo.RequiredSkill <= HerbLevel() 
                     &&*/ herbCheckedBoxes.Any(y => y == x.Name)).ToList();
-
-                return herbNodes.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
-            }
-
-            if (herbNodes?.Any() == false && mineNodes?.Any() == true)
-            {
-                mineNodes = mineNodes.Where(x => /*x.GatherInfo.RequiredSkill <= MineLevel() 
+            mineNodes = mineNodes.Where(x => /*x.GatherInfo.RequiredSkill <= MineLevel() 
                     &&*/ mineCheckedBoxes.Any(y => y == x.Name)).ToList();
 
-                return mineNodes.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
-            }
+            if (herbNodes?.Any() == true && mineNodes?.Any() == false)
+                return herbNodes.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
 
-            return herbNodes.Concat(mineNodes).OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
+            if (herbNodes?.Any() == false && mineNodes?.Any() == true)
+                return mineNodes.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
+
+            return herbNodes.Union(mineNodes).OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
         }
     }
 }
