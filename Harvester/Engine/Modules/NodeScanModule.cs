@@ -46,18 +46,23 @@ namespace Harvester.Engine.Modules
             List<string> herbCheckedBoxes = CMD.herbCheckedBoxes;
             List<string> mineCheckedBoxes = CMD.mineCheckedBoxes;
 
-            if ((!herbNodes.Any() && !mineNodes.Any()) 
-                || (herbCheckedBoxes?.Any() == false && mineCheckedBoxes?.Any() == false))
-                return null;
+            if (herbNodes?.Any() == true && mineNodes?.Any() == false)
+            {
+                herbNodes = herbNodes.Where(x => /*x.GatherInfo.RequiredSkill <= HerbLevel() 
+                    &&*/ herbCheckedBoxes.Any(y => y == x.Name)).ToList();
 
-            herbNodes = herbNodes.Where(x => /*x.GatherInfo.RequiredSkill <= HerbLevel() 
-                &&*/ herbCheckedBoxes.Any(y => y == x.Name)).ToList();
-            mineNodes = mineNodes.Where(x => /*x.GatherInfo.RequiredSkill <= MineLevel() 
-                &&*/ mineCheckedBoxes.Any(y => y == x.Name)).ToList();
+                return herbNodes.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
+            }
 
-            List<WoWGameObject> nodes = herbNodes.Concat(mineNodes).ToList();
+            if (herbNodes?.Any() == false && mineNodes?.Any() == true)
+            {
+                mineNodes = mineNodes.Where(x => /*x.GatherInfo.RequiredSkill <= MineLevel() 
+                    &&*/ mineCheckedBoxes.Any(y => y == x.Name)).ToList();
 
-            return nodes.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
+                return mineNodes.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
+            }
+
+            return herbNodes.Concat(mineNodes).OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
         }
     }
 }
