@@ -1,5 +1,4 @@
 ﻿using Harvester.Engine.Modules;
-using Harvester.Debugger;
 using ZzukBot.Game.Statics;
 using ZzukBot.Helpers;
 
@@ -26,23 +25,23 @@ namespace Harvester.Engine
                 CombatModule.FightMob();
             if (!ObjectManager.Player.IsInCombat)
             {
-                Logger logger = new Logger();
-
-                logger.LogOne(NodeScanModule.HerbLevel().ToString());
-
-                if (NodeScanModule.ClosestHerbNode() != null)
+                if (NodeScanModule.ClosestNode() != null)
                 {
-                    PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestHerbNode().Position));
+                    PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
 
-                    if (NodeScanModule.ClosestHerbNode().Position.DistanceToPlayer() <= 2)
+                    if (NodeScanModule.ClosestNode().Position.DistanceToPlayer() <= 2)
                     {
                         ObjectManager.Player.CtmStopMovement();
-                        NodeScanModule.ClosestHerbNode().Interact(false);
-                        Wait.For("harvest", 5000);
+
+                        if (ObjectManager.Player.CastingAsName != "Gathering" 
+                            && ObjectManager.Player.CastingAsName != "Mining")
+                            NodeScanModule.ClosestNode().Interact(true);
+
+                        Wait.For("harvest", 5000, true);
                     }
                 }
 
-                if (NodeScanModule.ClosestHerbNode() == null)
+                if (NodeScanModule.ClosestNode() == null)
                     PathModule.Traverse(PathModule.Path(PathModule.GetNextHotspot()));
             }
         }
