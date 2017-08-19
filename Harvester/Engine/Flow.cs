@@ -44,6 +44,8 @@ namespace Harvester.Engine
                             NodeScanModule.ClosestNode().Interact(true);
 
                         Wait.For("harvest", 5000, true);
+
+                        return;
                     }
 
                     PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
