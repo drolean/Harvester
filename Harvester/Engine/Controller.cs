@@ -11,7 +11,8 @@ namespace Harvester.Engine
         private ObjectManager ObjectManager { get; }
         private PathModule PathModule { get; }
 
-        public Controller(Flow flow, Inventory inventory, ObjectManager objectManager, PathModule pathModule)
+        public Controller(Flow flow, Inventory inventory, ObjectManager objectManager, 
+            PathModule pathModule)
         {
             Flow = flow;
             Inventory = inventory;

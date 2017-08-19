@@ -16,7 +16,8 @@ namespace Harvester.Engine
         private readonly object master;
         private bool running;
 
-        public Manager(CCLoader ccLoader, Controller controller, ObjectManager objectManager, ProfileLoader profileLoader)
+        public Manager(CCLoader ccLoader, Controller controller, ObjectManager objectManager, 
+            ProfileLoader profileLoader)
         {
             CCLoader = ccLoader;
             Controller = controller;

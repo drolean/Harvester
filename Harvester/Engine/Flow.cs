@@ -15,8 +15,11 @@ namespace Harvester.Engine
         private NodeScanModule NodeScanModule { get; }
         private ObjectManager ObjectManager { get; }
         private PathModule PathModule { get; }
+        private Spell Spell { get; }
 
-        public Flow(CMD cmd, CombatModule combatModule, Inventory inventory, NodeScanModule nodeScanModule, ObjectManager objectManager, PathModule pathModule)
+        public Flow(CMD cmd, CombatModule combatModule, Inventory inventory, 
+            NodeScanModule nodeScanModule, ObjectManager objectManager, PathModule pathModule, 
+            Spell spell)
         {
             CMD = cmd;
             CombatModule = combatModule;
@@ -24,6 +27,7 @@ namespace Harvester.Engine
             NodeScanModule = nodeScanModule;
             ObjectManager = objectManager;
             PathModule = pathModule;
+            Spell = spell;
         }
 
         Logger logger = new Logger();
@@ -42,7 +46,7 @@ namespace Harvester.Engine
                 {
                     if (ObjectManager.Player.CastingAsName == "Herb Gathering"
                         || ObjectManager.Player.CastingAsName == "Mining")
-                        ObjectManager.Player.Jump();
+                        Spell.StopCasting();
 
                     if (!ObjectManager.Player.IsMounted
                         && Inventory.GetItemCount(CMD.mountName) > 0)
@@ -58,7 +62,7 @@ namespace Harvester.Engine
                     if (closestNode.Position.DistanceToPlayer() > 3
                         && (ObjectManager.Player.CastingAsName == "Herb Gathering"
                         || ObjectManager.Player.CastingAsName == "Mining"))
-                        ObjectManager.Player.Jump();
+                        Spell.StopCasting();
 
                     if (closestNode.Position.DistanceToPlayer() <= 3)
                     {
