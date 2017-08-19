@@ -21,9 +21,6 @@ namespace Harvester.GUI
         public List<string> herbCheckedBoxes = new List<string> { };
         public List<string> mineCheckedBoxes = new List<string> { };
 
-        string herbsFile = Directory.GetCurrentDirectory() + "..Settings\\herbs.dat";
-        string minesFile = Directory.GetCurrentDirectory() + "..Settings\\mines.dat";
-
         private void LoadProfileButton_Click(object sender, EventArgs e)
             => ProfileLoader.LoadProfile(LoadProfileOFD);
 
@@ -36,7 +33,7 @@ namespace Harvester.GUI
         {
             herbCheckedBoxes.Clear();
 
-            foreach (var item in Herbs.Items)
+            foreach (var item in Herbs.CheckedItems)
                 herbCheckedBoxes.Add(item.ToString());
         }
 

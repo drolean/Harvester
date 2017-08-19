@@ -49,7 +49,7 @@ namespace Harvester.Engine
                         return;
                     }
 
-                    PathModule.Traverse(PathModule.Path(closestNode.Position));
+                    PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
                     PathModule.index = -1;
                     PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString()
                         + Convert.ToInt32(ObjectManager.Player.Position.Y).ToString()
