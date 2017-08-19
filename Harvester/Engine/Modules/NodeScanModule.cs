@@ -20,6 +20,8 @@ namespace Harvester.Engine.Modules
             Skills = skills;
         }
 
+        public List<ulong> blacklist = new List<ulong> { };
+
         public int HerbLevel()
         {
             List<Skills.Skill> skills = Skills.GetAllPlayerSkills();
@@ -44,9 +46,11 @@ namespace Harvester.Engine.Modules
                 .Where(x => x.GatherInfo.Type == Enums.GatherType.Mining).ToList();
 
             herbNodes = herbNodes.Where(x => /*x.GatherInfo.RequiredSkill <= HerbLevel() 
-                    &&*/ CMD.herbCheckedBoxes.Any(y => y == x.Name)).ToList();
+                    &&*/ CMD.herbCheckedBoxes.Any(y => y == x.Name)
+                    && !blacklist.Contains(x.Guid)).ToList();
             mineNodes = mineNodes.Where(x => /*x.GatherInfo.RequiredSkill <= MineLevel() 
-                    &&*/ CMD.mineCheckedBoxes.Any(y => y == x.Name)).ToList();
+                    &&*/ CMD.mineCheckedBoxes.Any(y => y == x.Name)
+                    && !blacklist.Contains(x.Guid)).ToList();
 
             return herbNodes.Concat(mineNodes).OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
         }

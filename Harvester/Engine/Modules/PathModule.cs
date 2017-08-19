@@ -11,7 +11,6 @@ namespace Harvester.Engine.Modules
         private Navigation Navigation { get; }
         private ObjectManager ObjectManager { get; }
         private ProfileLoader ProfileLoader { get; }
-        public int index = -1;
 
         public PathModule(Navigation navigation, ObjectManager objectManager, ProfileLoader profileLoader)
         {
@@ -19,6 +18,9 @@ namespace Harvester.Engine.Modules
             ObjectManager = objectManager;
             ProfileLoader = profileLoader;
         }
+
+        public int index = -1;
+        public List<string> playerPositions = new List<string> { };
 
         public Location Path(Location destination)
         {
@@ -78,6 +80,14 @@ namespace Harvester.Engine.Modules
                 index = 0;
 
             return ProfileLoader.vendor[index];
+        }
+
+        public bool Stuck()
+        {
+            if (playerPositions.FindAll(x => x.Equals(playerPositions.Last())).Count() >= 10)
+                return true;
+
+            return false;
         }
     }
 }

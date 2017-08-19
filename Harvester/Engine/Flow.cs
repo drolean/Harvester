@@ -1,4 +1,6 @@
-﻿using Harvester.Engine.Modules;
+﻿using Harvester.Debugger;
+using Harvester.Engine.Modules;
+using System;
 using ZzukBot.Game.Statics;
 using ZzukBot.Helpers;
 
@@ -19,6 +21,8 @@ namespace Harvester.Engine
             PathModule = pathModule;
         }
 
+        Logger logger = new Logger();
+
         public void ExecuteFlow()
         {
             if (ObjectManager.Player.IsInCombat)
@@ -27,6 +31,17 @@ namespace Harvester.Engine
             {
                 if (NodeScanModule.ClosestNode() != null)
                 {
+                    PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString() 
+                        + Convert.ToInt32(ObjectManager.Player.Position.Y).ToString() 
+                        + Convert.ToInt32(ObjectManager.Player.Position.Z).ToString());
+
+                    if (PathModule.Stuck())
+                    {
+                        NodeScanModule.blacklist.Add(NodeScanModule.ClosestNode().Guid);
+
+                        logger.LogOne(NodeScanModule.ClosestNode().Guid.ToString());
+                    }
+
                     PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
                     PathModule.index = -1;
 
