@@ -84,7 +84,7 @@ namespace Harvester.Engine.Modules
 
         public bool Stuck()
         {
-            if (playerPositions.FindAll(x => x.Equals(playerPositions.Last())).Count() >= 10)
+            if (playerPositions.FindAll(x => x.Equals(playerPositions.Last())).Count() >= 20)
                 return true;
 
             return false;

@@ -27,6 +27,7 @@ namespace Harvester.Engine
         {
             if (ObjectManager.Player.IsInCombat)
                 CombatModule.FightMob();
+
             if (!ObjectManager.Player.IsInCombat)
             {
                 if (NodeScanModule.ClosestNode() != null)
@@ -38,8 +39,8 @@ namespace Harvester.Engine
                     if (PathModule.Stuck())
                     {
                         NodeScanModule.blacklist.Add(NodeScanModule.ClosestNode().Guid);
-
                         logger.LogOne(NodeScanModule.ClosestNode().Guid.ToString());
+                        PathModule.playerPositions.Clear();
                     }
 
                     PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
