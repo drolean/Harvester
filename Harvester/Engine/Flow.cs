@@ -2,7 +2,6 @@
 using Harvester.Engine.Modules;
 using Harvester.GUI;
 using System;
-using System.Linq;
 using ZzukBot.Game.Statics;
 using ZzukBot.Objects;
 
@@ -75,8 +74,8 @@ namespace Harvester.Engine
                         return;
                     }
 
-                    PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
                     PathModule.index = -1;
+                    PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
                     PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString()
                         + Convert.ToInt32(ObjectManager.Player.Position.Y).ToString()
                         + Convert.ToInt32(ObjectManager.Player.Position.Z).ToString());
@@ -87,7 +86,6 @@ namespace Harvester.Engine
                         logger.LogOne(closestNode.Guid.ToString());
                         PathModule.playerPositions.Clear();
                     }
-
                 }
             }
         }
