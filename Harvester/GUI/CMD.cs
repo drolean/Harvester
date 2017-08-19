@@ -44,5 +44,10 @@ namespace Harvester.GUI
             foreach (var item in Mines.CheckedItems)
                 mineCheckedBoxes.Add(item.ToString());
         }
+
+        private void MountText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }

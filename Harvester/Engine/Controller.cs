@@ -1,24 +1,41 @@
-﻿using ZzukBot.Game.Statics;
+﻿using Harvester.Engine.Modules;
+using ZzukBot.Game.Statics;
 using ZzukBot.Objects;
 
 namespace Harvester.Engine
 {
     public class Controller
     {
+        private Flow Flow { get; }
         private Inventory Inventory { get; }
         private ObjectManager ObjectManager { get; }
-        private Flow Flow { get; }
+        private PathModule PathModule { get; }
 
-        public Controller(Inventory inventory, ObjectManager objectManager, Flow flow)
+        public Controller(Flow flow, Inventory inventory, ObjectManager objectManager, PathModule pathModule)
         {
+            Flow = flow;
             Inventory = inventory;
             ObjectManager = objectManager;
-            Flow = flow;
+            PathModule = pathModule;
         }
 
         public void Behavior()
         {
-            Flow.ExecuteFlow();
+            switch (StateLogic())
+            {
+                case STATUS.ALIVE:
+                    Flow.ExecuteFlow();
+                    return;
+                case STATUS.DEAD:
+                    ObjectManager.Player.RepopMe();
+                    return;
+                case STATUS.GHOST:
+                    PathModule.Traverse(PathModule.Path(ObjectManager.Player.CorpsePosition));
+                    if (ObjectManager.Player.CorpsePosition
+                        .GetDistanceTo(ObjectManager.Player.Position) < 20)
+                            ObjectManager.Player.RetrieveCorpse();
+                    return;
+            }
         }
 
         public STATUS StateLogic()
