@@ -46,20 +46,17 @@ namespace Harvester.Engine
                         Wait.For("harvest", 5000, true);
                     }
 
-                    if (NodeScanModule.ClosestNode().Position.DistanceToPlayer() > 2)
-                    {
-                        PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
-                        PathModule.index = -1;
-                        PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString()
-                            + Convert.ToInt32(ObjectManager.Player.Position.Y).ToString()
-                            + Convert.ToInt32(ObjectManager.Player.Position.Z).ToString());
+                    PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
+                    PathModule.index = -1;
+                    PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString()
+                        + Convert.ToInt32(ObjectManager.Player.Position.Y).ToString()
+                        + Convert.ToInt32(ObjectManager.Player.Position.Z).ToString());
 
-                        if (PathModule.Stuck())
-                        {
-                            NodeScanModule.blacklist.Add(NodeScanModule.ClosestNode().Guid);
-                            logger.LogOne(NodeScanModule.ClosestNode().Guid.ToString());
-                            PathModule.playerPositions.Clear();
-                        }
+                    if (PathModule.Stuck())
+                    {
+                        NodeScanModule.blacklist.Add(NodeScanModule.ClosestNode().Guid);
+                        logger.LogOne(NodeScanModule.ClosestNode().Guid.ToString());
+                        PathModule.playerPositions.Clear();
                     }
                 }
             }
