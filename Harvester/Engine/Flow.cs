@@ -2,7 +2,7 @@
 using Harvester.Engine.Modules;
 using System;
 using ZzukBot.Game.Statics;
-using ZzukBot.Helpers;
+using ZzukBot.Objects;
 
 namespace Harvester.Engine
 {
@@ -22,6 +22,7 @@ namespace Harvester.Engine
         }
 
         Logger logger = new Logger();
+        WoWGameObject closestNode;
 
         public void ExecuteFlow()
         {
@@ -30,25 +31,25 @@ namespace Harvester.Engine
 
             if (!ObjectManager.Player.IsInCombat)
             {
-                if (NodeScanModule.ClosestNode() == null)
+                closestNode = NodeScanModule.ClosestNode();
+
+                if (closestNode == null)
                     PathModule.Traverse(PathModule.Path(PathModule.GetNextHotspot()));
 
-                if (NodeScanModule.ClosestNode() != null)
+                if (closestNode != null)
                 {
-                    if (NodeScanModule.ClosestNode().Position.DistanceToPlayer() <= 2)
+                    if (closestNode.Position.DistanceToPlayer() <= 3)
                     {
                         ObjectManager.Player.CtmStopMovement();
 
                         if (ObjectManager.Player.CastingAsName != "Herb Gathering" 
                             && ObjectManager.Player.CastingAsName != "Mining")
-                            NodeScanModule.ClosestNode().Interact(true);
-
-                        Wait.For("harvest", 5000, true);
+                            closestNode.Interact(true);
 
                         return;
                     }
 
-                    PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
+                    PathModule.Traverse(PathModule.Path(closestNode.Position));
                     PathModule.index = -1;
                     PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString()
                         + Convert.ToInt32(ObjectManager.Player.Position.Y).ToString()
@@ -56,8 +57,8 @@ namespace Harvester.Engine
 
                     if (PathModule.Stuck())
                     {
-                        NodeScanModule.blacklist.Add(NodeScanModule.ClosestNode().Guid);
-                        logger.LogOne(NodeScanModule.ClosestNode().Guid.ToString());
+                        NodeScanModule.blacklist.Add(closestNode.Guid);
+                        logger.LogOne(closestNode.Guid.ToString());
                         PathModule.playerPositions.Clear();
                     }
                 }
