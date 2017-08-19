@@ -32,7 +32,7 @@
             this.LoadProfileOFD = new System.Windows.Forms.OpenFileDialog();
             this.Herbs = new System.Windows.Forms.CheckedListBox();
             this.Mines = new System.Windows.Forms.CheckedListBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.MountText = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
@@ -117,19 +117,19 @@
             this.Mines.TabIndex = 2;
             this.Mines.MouseLeave += new System.EventHandler(this.MineCheckListBox_MouseLeave);
             // 
-            // textBox1
+            // MountText
             // 
-            this.textBox1.Location = new System.Drawing.Point(13, 278);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 20);
-            this.textBox1.TabIndex = 3;
-            this.textBox1.TextChanged += new System.EventHandler(this.MountText_TextChanged);
+            this.MountText.Location = new System.Drawing.Point(13, 278);
+            this.MountText.Name = "MountText";
+            this.MountText.Size = new System.Drawing.Size(100, 20);
+            this.MountText.TabIndex = 3;
+            this.MountText.TextChanged += new System.EventHandler(this.MountText_TextChanged);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(120, 284);
-            this.label1.Name = "label1";
+            this.label1.Name = "MountLabel";
             this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "Mount";
@@ -140,7 +140,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(375, 317);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.MountText);
             this.Controls.Add(this.Mines);
             this.Controls.Add(this.Herbs);
             this.Controls.Add(this.LoadProfileButton);
@@ -157,7 +157,7 @@
         private System.Windows.Forms.OpenFileDialog LoadProfileOFD;
         private System.Windows.Forms.CheckedListBox Herbs;
         private System.Windows.Forms.CheckedListBox Mines;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox MountText;
         private System.Windows.Forms.Label label1;
     }
 }

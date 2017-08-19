@@ -1,6 +1,8 @@
 ﻿using Harvester.Debugger;
 using Harvester.Engine.Modules;
+using Harvester.GUI;
 using System;
+using System.Linq;
 using ZzukBot.Game.Statics;
 using ZzukBot.Objects;
 
@@ -8,14 +10,18 @@ namespace Harvester.Engine
 {
     public class Flow
     {
+        private CMD CMD { get; }
         private CombatModule CombatModule { get; }
+        private Inventory Inventory { get; }
         private NodeScanModule NodeScanModule { get; }
         private ObjectManager ObjectManager { get; }
         private PathModule PathModule { get; }
 
-        public Flow(CombatModule combatModule, NodeScanModule nodeScanModule, ObjectManager objectManager, PathModule pathModule)
+        public Flow(CMD cmd, CombatModule combatModule, Inventory inventory, NodeScanModule nodeScanModule, ObjectManager objectManager, PathModule pathModule)
         {
+            CMD = cmd;
             CombatModule = combatModule;
+            Inventory = inventory;
             NodeScanModule = nodeScanModule;
             ObjectManager = objectManager;
             PathModule = pathModule;
@@ -26,20 +32,40 @@ namespace Harvester.Engine
 
         public void ExecuteFlow()
         {
-            if (ObjectManager.Player.IsInCombat)
+            if (ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted)
                 CombatModule.FightMob();
 
-            if (!ObjectManager.Player.IsInCombat)
-            {
-                closestNode = NodeScanModule.ClosestNode();
+                if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted)
+                {
+                    closestNode = NodeScanModule.ClosestNode();
 
                 if (closestNode == null)
-                    PathModule.Traverse(PathModule.Path(PathModule.GetNextHotspot()));
+                {
+                    if (ObjectManager.Player.CastingAsName == "Herb Gathering"
+                        || ObjectManager.Player.CastingAsName == "Mining")
+                        ObjectManager.Player.Jump();
+
+                    if (!ObjectManager.Player.IsMounted
+                        && Inventory.GetItemCount(CMD.mountName) > 0)
+                        Inventory.GetItem(CMD.mountName).Use();
+
+                    if (ObjectManager.Player.IsMounted
+                        || Inventory.GetItemCount(CMD.mountName) == 0)
+                        PathModule.Traverse(PathModule.Path(PathModule.GetNextHotspot()));
+                }
 
                 if (closestNode != null)
                 {
+                    if (closestNode.Position.DistanceToPlayer() > 3
+                        && (ObjectManager.Player.CastingAsName == "Herb Gathering"
+                        || ObjectManager.Player.CastingAsName == "Mining"))
+                        ObjectManager.Player.Jump();
+
                     if (closestNode.Position.DistanceToPlayer() <= 3)
                     {
+                        if (ObjectManager.Player.IsMounted)
+                            Inventory.GetItem(CMD.mountName).Use();
+
                         ObjectManager.Player.CtmStopMovement();
 
                         if (ObjectManager.Player.CastingAsName != "Herb Gathering" 
@@ -61,6 +87,7 @@ namespace Harvester.Engine
                         logger.LogOne(closestNode.Guid.ToString());
                         PathModule.playerPositions.Clear();
                     }
+
                 }
             }
         }

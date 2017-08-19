@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 
 namespace Harvester.GUI
@@ -20,6 +18,7 @@ namespace Harvester.GUI
 
         public List<string> herbCheckedBoxes = new List<string> { };
         public List<string> mineCheckedBoxes = new List<string> { };
+        public string mountName;
 
         private void LoadProfileButton_Click(object sender, EventArgs e)
             => ProfileLoader.LoadProfile(LoadProfileOFD);
@@ -47,7 +46,7 @@ namespace Harvester.GUI
 
         private void MountText_TextChanged(object sender, EventArgs e)
         {
-
+            mountName = MountText.Text;
         }
     }
 }
