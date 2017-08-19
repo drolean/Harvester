@@ -38,9 +38,9 @@ namespace Harvester.Engine
             if (ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted)
                 CombatModule.FightMob();
 
-                if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted)
-                {
-                    closestNode = NodeScanModule.ClosestNode();
+            if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted)
+            {
+                closestNode = NodeScanModule.ClosestNode();
 
                 if (closestNode == null)
                 {
@@ -54,7 +54,7 @@ namespace Harvester.Engine
 
                     if (ObjectManager.Player.IsMounted
                         || Inventory.GetItemCount(CMD.mountName) == 0)
-                        PathModule.Traverse(PathModule.Path(PathModule.GetNextHotspot()));
+                         PathModule.Traverse(PathModule.Path(PathModule.GetNextHotspot()));
                 }
 
                 if (closestNode != null)
@@ -78,8 +78,8 @@ namespace Harvester.Engine
                         return;
                     }
 
-                    PathModule.index = -1;
                     PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
+                    PathModule.index = -1;
                     PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString()
                         + Convert.ToInt32(ObjectManager.Player.Position.Y).ToString()
                         + Convert.ToInt32(ObjectManager.Player.Position.Z).ToString());
