@@ -54,7 +54,8 @@ namespace Harvester.Engine
                         Inventory.GetItem(CMD.mountName).Use();
 
                     if (ObjectManager.Player.IsMounted
-                        || Inventory.GetItemCount(CMD.mountName) == 0)
+                        || Inventory.GetItemCount(CMD.mountName) == 0
+                        || ObjectManager.Player.IsSwimming)
                          PathModule.Traverse(PathModule.Path(PathModule.GetNextHotspot()));
                 }
 
