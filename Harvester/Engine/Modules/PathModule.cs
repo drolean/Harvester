@@ -32,6 +32,9 @@ namespace Harvester.Engine.Modules
             Location closestWaypoint = pathList.OrderBy(x => playerPos.GetDistanceTo(x)).First();
             int index = pathList.FindIndex(x => x.Equals(closestWaypoint)) + 1;
 
+            if (index > pathList.Count() - 1)
+                index = 1;
+
             return pathList[index];
         }
 
