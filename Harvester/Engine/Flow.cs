@@ -49,7 +49,8 @@ namespace Harvester.Engine
                         Spell.StopCasting();
 
                     if (!ObjectManager.Player.IsMounted
-                        && Inventory.GetItemCount(CMD.mountName) > 0)
+                        && Inventory.GetItemCount(CMD.mountName) > 0
+                        && !ObjectManager.Player.IsSwimming)
                         Inventory.GetItem(CMD.mountName).Use();
 
                     if (ObjectManager.Player.IsMounted
