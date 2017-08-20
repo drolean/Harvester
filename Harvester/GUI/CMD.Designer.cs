@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CMD));
             this.LoadProfileButton = new System.Windows.Forms.Button();
             this.LoadProfileOFD = new System.Windows.Forms.OpenFileDialog();
             this.Herbs = new System.Windows.Forms.CheckedListBox();
@@ -129,7 +130,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(120, 284);
-            this.label1.Name = "MountLabel";
+            this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "Mount";
@@ -144,8 +145,9 @@
             this.Controls.Add(this.Mines);
             this.Controls.Add(this.Herbs);
             this.Controls.Add(this.LoadProfileButton);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CMD";
-            this.Text = "CMD";
+            this.Text = "Harvester";
             this.ResumeLayout(false);
             this.PerformLayout();
 
