@@ -1,4 +1,5 @@
 ﻿using Harvester.GUI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ZzukBot.Constants;
@@ -53,6 +54,30 @@ namespace Harvester.Engine.Modules
                     && !blacklist.Any(z => z == x.Guid)).ToList();
 
             return herbNodes.Concat(mineNodes).OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position)).FirstOrDefault();
+        }
+
+        public WoWUnit NodeGuardian(WoWGameObject closestNode)
+        {
+            Location nodePosition = closestNode.Position;
+
+            WoWUnit nodeGuardian = ObjectManager.Npcs.Where(x => !x.IsCritter && !x.IsDead && x.Flags == 0
+                    && (x.Reaction & Enums.UnitReaction.Friendly) != Enums.UnitReaction.Friendly)
+                    .OrderBy(y => ObjectManager.Player.Position.GetDistanceTo(y.Position)).FirstOrDefault();
+
+            float d;
+
+            float nodePositionX = nodePosition.X;
+            float nodePositionY = nodePosition.Y;
+            float nodeGuardianPositionX = nodeGuardian.Position.X;
+            float nodeGuardianPositionY = nodeGuardian.Position.Y;
+
+            d = Convert.ToSingle(Math.Sqrt(Math.Pow(nodeGuardianPositionX - nodePositionX, 2)
+                + Math.Pow(nodeGuardianPositionY - nodePositionY, 2)));
+
+            if (d < 10)
+                return nodeGuardian;
+
+            return null;
         }
     }
 }

@@ -32,6 +32,7 @@ namespace Harvester.Engine
 
         Logger logger = new Logger();
         WoWGameObject closestNode;
+        WoWUnit nodeGuardian;
 
         public void ExecuteFlow()
         {
@@ -41,7 +42,7 @@ namespace Harvester.Engine
             if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted)
             {
                 closestNode = NodeScanModule.ClosestNode();
-
+ 
                 if (closestNode == null)
                 {
                     if (ObjectManager.Player.CastingAsName == "Herb Gathering"
@@ -61,6 +62,21 @@ namespace Harvester.Engine
 
                 if (closestNode != null)
                 {
+                    nodeGuardian = NodeScanModule.NodeGuardian(closestNode);
+
+                    if (nodeGuardian != null)
+                    {
+                        if (ObjectManager.Player.IsMounted)
+                            Inventory.GetItem(CMD.mountName).Use();
+
+                        ObjectManager.Player.SetTarget(nodeGuardian);
+
+                        if (ObjectManager.Target == nodeGuardian)
+                            CombatModule.PullMob(ObjectManager.Target);
+
+                        return;
+                    }
+
                     if (closestNode.Position.DistanceToPlayer() > 3
                         && (ObjectManager.Player.CastingAsName == "Herb Gathering"
                         || ObjectManager.Player.CastingAsName == "Mining"))
