@@ -64,18 +64,21 @@ namespace Harvester.Engine.Modules
                     && (x.Reaction & Enums.UnitReaction.Friendly) != Enums.UnitReaction.Friendly)
                     .OrderBy(y => ObjectManager.Player.Position.GetDistanceTo(y.Position)).FirstOrDefault();
 
-            float d;
+            if (nodeGuardian != null)
+            {
+                float d;
 
-            float nodePositionX = nodePosition.X;
-            float nodePositionY = nodePosition.Y;
-            float nodeGuardianPositionX = nodeGuardian.Position.X;
-            float nodeGuardianPositionY = nodeGuardian.Position.Y;
+                float nodePositionX = nodePosition.X;
+                float nodePositionY = nodePosition.Y;
+                float nodeGuardianPositionX = nodeGuardian.Position.X;
+                float nodeGuardianPositionY = nodeGuardian.Position.Y;
 
-            d = Convert.ToSingle(Math.Sqrt(Math.Pow(nodeGuardianPositionX - nodePositionX, 2)
-                + Math.Pow(nodeGuardianPositionY - nodePositionY, 2)));
+                d = Convert.ToSingle(Math.Sqrt(Math.Pow(nodeGuardianPositionX - nodePositionX, 2)
+                    + Math.Pow(nodeGuardianPositionY - nodePositionY, 2)));
 
-            if (d < 10)
-                return nodeGuardian;
+                if (d < 10)
+                    return nodeGuardian;
+            }
 
             return null;
         }
