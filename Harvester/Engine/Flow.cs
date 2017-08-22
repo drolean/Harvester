@@ -62,6 +62,11 @@ namespace Harvester.Engine
 
                 if (closestNode != null)
                 {
+                    if (ObjectManager.Player.IsInCombat)
+                    {
+                        if (ObjectManager.Player.IsMounted)
+                            Inventory.GetItem(CMD.mountName).Use();
+                    }
                     nodeGuardian = NodeScanModule.NodeGuardian(closestNode);
 
                     if (nodeGuardian != null)
