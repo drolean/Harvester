@@ -31,7 +31,7 @@ namespace Harvester.Engine
                     ObjectManager.Player.RepopMe();
                     return;
                 case STATUS.GHOST:
-                    PathModule.Traverse(PathModule.Path(ObjectManager.Player.CorpsePosition));
+                    PathModule.Traverse(ObjectManager.Player.CorpsePosition);
                     if (ObjectManager.Player.CorpsePosition
                         .GetDistanceTo(ObjectManager.Player.Position) < 20)
                             ObjectManager.Player.RetrieveCorpse();

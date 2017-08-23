@@ -66,7 +66,7 @@ namespace Harvester.Engine.Modules
 
         public void TraverseToClosestLootable()
         {
-            PathModule.Traverse(PathModule.Path(GetClosestLootable().Position));
+            PathModule.Traverse(GetClosestLootable().Position);
         }
 
         public WoWUnit GetClosestMob()

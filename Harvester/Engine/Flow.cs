@@ -57,7 +57,7 @@ namespace Harvester.Engine
                     if (ObjectManager.Player.IsMounted
                         || Inventory.GetItemCount(CMD.mountName) == 0
                         || ObjectManager.Player.IsSwimming)
-                         PathModule.Traverse(PathModule.Path(PathModule.GetNextHotspot()));
+                         PathModule.Traverse(PathModule.GetNextHotspot());
                 }
 
                 if (closestNode != null)
@@ -101,7 +101,7 @@ namespace Harvester.Engine
                         return;
                     }
 
-                    PathModule.Traverse(PathModule.Path(NodeScanModule.ClosestNode().Position));
+                    PathModule.Traverse(NodeScanModule.ClosestNode().Position);
                     PathModule.index = -1;
                     PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString()
                         + Convert.ToInt32(ObjectManager.Player.Position.Y).ToString()

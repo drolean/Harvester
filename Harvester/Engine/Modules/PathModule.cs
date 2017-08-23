@@ -22,7 +22,7 @@ namespace Harvester.Engine.Modules
         public int index = -1;
         public List<string> playerPositions = new List<string> { };
 
-        public Location Path(Location destination)
+        private Location Path(Location destination)
         {
             LocalPlayer player = ObjectManager.Player;
             Location playerPos = player.Position;
