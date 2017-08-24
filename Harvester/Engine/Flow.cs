@@ -37,7 +37,7 @@ namespace Harvester.Engine
         public void ExecuteFlow()
         {
             if (ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted)
-                CombatModule.FightMob();
+                CombatModule.Fight();
 
             if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted)
             {
@@ -77,7 +77,7 @@ namespace Harvester.Engine
                         ObjectManager.Player.SetTarget(nodeGuardian);
 
                         if (ObjectManager.Target == nodeGuardian)
-                            CombatModule.PullMob(ObjectManager.Target);
+                            CombatModule.Pull(ObjectManager.Target);
 
                         return;
                     }
