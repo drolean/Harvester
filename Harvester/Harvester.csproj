@@ -55,6 +55,7 @@
     <Compile Include="Engine\Controller.cs" />
     <Compile Include="Engine\Manager.cs" />
     <Compile Include="Engine\Modules\CombatModule.cs" />
+    <Compile Include="Engine\Modules\ConsumablesModule.cs" />
     <Compile Include="Engine\Modules\NodeScanModule.cs" />
     <Compile Include="Engine\Modules\PathModule.cs" />
     <Compile Include="Engine\Flow.cs" />

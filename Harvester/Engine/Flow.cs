@@ -11,15 +11,16 @@ namespace Harvester.Engine
     {
         private CMD CMD { get; }
         private CombatModule CombatModule { get; }
+        private ConsumablesModule ConsumablesModule { get; }
         private Inventory Inventory { get; }
         private NodeScanModule NodeScanModule { get; }
         private ObjectManager ObjectManager { get; }
         private PathModule PathModule { get; }
         private Spell Spell { get; }
 
-        public Flow(CMD cmd, CombatModule combatModule, Inventory inventory, 
-            NodeScanModule nodeScanModule, ObjectManager objectManager, PathModule pathModule, 
-            Spell spell)
+        public Flow(CMD cmd, CombatModule combatModule, ConsumablesModule consumablesModule, 
+            Inventory inventory, NodeScanModule nodeScanModule, ObjectManager objectManager, 
+            PathModule pathModule, Spell spell)
         {
             CMD = cmd;
             CombatModule = combatModule;

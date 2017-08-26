@@ -30,12 +30,13 @@ namespace Harvester
             r.Add(new CCLoader(r.Get<CustomClasses>()));
             r.Add(new ProfileLoader(r.Get<Loader>()));
             r.Add(new CMD(r.Get<ProfileLoader>()));
+            r.Add(new ConsumablesModule(r.Get<Inventory>(), r.Get<ObjectManager>()));
             r.Add(new PathModule(r.Get<Navigation>(), r.Get<ObjectManager>(), r.Get<ProfileLoader>()));
             r.Add(new CombatModule(r.Get<CustomClasses>(), r.Get<ObjectManager>(), r.Get<PathModule>()));
             r.Add(new NodeScanModule(r.Get<CMD>(), r.Get<ObjectManager>(), r.Get<Skills>()));
-            r.Add(new Flow(r.Get<CMD>(), r.Get<CombatModule>(), r.Get<Inventory>(), 
-                r.Get<NodeScanModule>(), r.Get<ObjectManager>(), r.Get<PathModule>(), 
-                r.Get<Spell>()));
+            r.Add(new Flow(r.Get<CMD>(), r.Get<CombatModule>(), r.Get<ConsumablesModule>(), 
+                r.Get<Inventory>(), r.Get<NodeScanModule>(), r.Get<ObjectManager>(), 
+                r.Get<PathModule>(), r.Get<Spell>()));
             r.Add(new Controller(r.Get<Flow>(), r.Get<Inventory>(), r.Get<ObjectManager>(), 
                 r.Get<PathModule>()));
             r.Add(new Manager(r.Get<CCLoader>(), r.Get<Controller>(), r.Get<ObjectManager>(), 
