@@ -25,6 +25,7 @@ namespace Harvester.Engine
         {
             CMD = cmd;
             CombatModule = combatModule;
+            ConsumablesModule = consumablesModule;
             Inventory = inventory;
             NodeScanModule = nodeScanModule;
             ObjectManager = objectManager;
