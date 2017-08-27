@@ -86,10 +86,18 @@ namespace Harvester.Engine
                             if (ObjectManager.Player.IsMounted)
                                 Inventory.GetItem(CMD.mountName).Use();
                         }
+
                         nodeGuardian = NodeScanModule.NodeGuardian(closestNode);
 
                         if (nodeGuardian != null)
                         {
+                            if (nodeGuardian.CreatureRank == ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
+                            {
+                                NodeScanModule.blacklist.Add(closestNode.Guid);
+
+                                return;
+                            }
+
                             if (ObjectManager.Player.IsMounted)
                                 Inventory.GetItem(CMD.mountName).Use();
 
