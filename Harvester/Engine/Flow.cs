@@ -49,11 +49,13 @@ namespace Harvester.Engine
                     if (ObjectManager.Player.IsMounted)
                         Inventory.GetItem(CMD.mountName).Use();
 
-                    if (ObjectManager.Player.HealthPercent < 45 && !ObjectManager.Player.GotAura("Food"))
-                        ConsumablesModule.Eat();
+                    if (ConsumablesModule.SelectedFood() != null 
+                        && ObjectManager.Player.HealthPercent < 45 
+                        && !ObjectManager.Player.GotAura("Food"))
+                        Inventory.GetItem(ConsumablesModule.SelectedFood().Name).Use();
 
-                    if (ObjectManager.Player.ManaPercent < 45 && !ObjectManager.Player.GotAura("Drink"))
-                        ConsumablesModule.Drink();
+                    //if (ObjectManager.Player.ManaPercent < 45 && !ObjectManager.Player.GotAura("Drink"))
+                        //ConsumablesModule.Drink();
                 }
 
                 if (CombatModule.IsReadyToFight() || ObjectManager.Player.IsInCombat)

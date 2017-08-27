@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ZzukBot.Objects;
 using ZzukBot.Game.Statics;
 
 namespace Harvester.Engine.Modules
@@ -15,7 +16,7 @@ namespace Harvester.Engine.Modules
             ObjectManager = objectManager;
         }
 
-        public string[] foodNames =
+        public List<string> foodNames = new List<string>(new string[]
         {
             "Tough Hunk of Bread", "Darnassian Bleu", "Slitherskin Mackeral", "Shiny Red Apple", "Forest Mushroom Cap", "Tough Jerky",
             "Freshly Baked Bread", "Dalaran Sharp", "Longjaw Mud Snapper", "Tel'Abim Banana", "Red-speckled Mushroom", "Haunch of Meat",
@@ -24,7 +25,7 @@ namespace Harvester.Engine.Modules
             "Soft Banana Bread", "Fine Aged Cheddar", "Spotted Yellowtail", "Striped Yellowtail", "Moon Harvest Pumpkin", "Raw Black Truffle", "Cured Ham Steak",
             "Homemade Cherry Pie", "Alterac Swiss", "Spinefin Halibut", "Deep Fried Plantains", "Dried King Bolete", "Roasted Quail",
             "Conjured Sweet Roll", "Conjured Cinnamon Roll"
-        };
+        });
 
         public string[] drinkNames =
         {
@@ -36,10 +37,9 @@ namespace Harvester.Engine.Modules
             "Morning Glory Dew", "Conjured Crystal Water",
         };
 
-        public void Eat()
+        public WoWItem SelectedFood()
         {
-            List<string> foods = foodNames.ToList();
-            Inventory.GetItem(foods.Where(x => Inventory.GetItemCount(x) > 0).FirstOrDefault()).Use();
+            return Inventory.GetItem(foodNames.Where(x => Inventory.GetItemCount(x) > 0).FirstOrDefault());
         }
 
         public void Drink()
