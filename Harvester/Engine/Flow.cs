@@ -62,7 +62,7 @@ namespace Harvester.Engine
                         //ConsumablesModule.Drink();
                 }
 
-                if (CombatModule.IsReadyToFight() || !ObjectManager.Player.IsInCombat)
+                if (CombatModule.IsReadyToFight() && !ObjectManager.Player.IsInCombat)
                 {
                     closestNode = NodeScanModule.ClosestNode();
 
@@ -133,7 +133,10 @@ namespace Harvester.Engine
 
                             if (ObjectManager.Player.CastingAsName != "Herb Gathering"
                                 && ObjectManager.Player.CastingAsName != "Mining")
+                            {
+                                Lua.Execute("DoEmote('stand')");
                                 closestNode.Interact(true);
+                            }
 
                             return;
                         }
