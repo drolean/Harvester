@@ -22,6 +22,7 @@ namespace Harvester
             r.Add(this);
             r.Add(CustomClasses.Instance);
             r.Add(Inventory.Instance);
+            r.Add(Lua.Instance);
             r.Add(Navigation.Instance);
             r.Add(ObjectManager.Instance);
             r.Add(Skills.Instance);
@@ -35,8 +36,8 @@ namespace Harvester
             r.Add(new CombatModule(r.Get<CustomClasses>(), r.Get<ObjectManager>(), r.Get<PathModule>()));
             r.Add(new NodeScanModule(r.Get<CMD>(), r.Get<ObjectManager>(), r.Get<Skills>()));
             r.Add(new Flow(r.Get<CMD>(), r.Get<CombatModule>(), r.Get<ConsumablesModule>(), 
-                r.Get<Inventory>(), r.Get<NodeScanModule>(), r.Get<ObjectManager>(), 
-                r.Get<PathModule>(), r.Get<Spell>()));
+                r.Get<Inventory>(), r.Get<Lua>(), r.Get<NodeScanModule>(), 
+                r.Get<ObjectManager>(), r.Get<PathModule>(), r.Get<Spell>()));
             r.Add(new Controller(r.Get<Flow>(), r.Get<Inventory>(), r.Get<ObjectManager>(), 
                 r.Get<PathModule>()));
             r.Add(new Manager(r.Get<CCLoader>(), r.Get<Controller>(), r.Get<ObjectManager>(), 

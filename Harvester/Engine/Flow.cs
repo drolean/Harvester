@@ -14,19 +14,21 @@ namespace Harvester.Engine
         private CombatModule CombatModule { get; }
         private ConsumablesModule ConsumablesModule { get; }
         private Inventory Inventory { get; }
+        private Lua Lua { get; }
         private NodeScanModule NodeScanModule { get; }
         private ObjectManager ObjectManager { get; }
         private PathModule PathModule { get; }
         private Spell Spell { get; }
 
         public Flow(CMD cmd, CombatModule combatModule, ConsumablesModule consumablesModule, 
-            Inventory inventory, NodeScanModule nodeScanModule, ObjectManager objectManager, 
-            PathModule pathModule, Spell spell)
+            Inventory inventory, Lua lua, NodeScanModule nodeScanModule, 
+            ObjectManager objectManager, PathModule pathModule, Spell spell)
         {
             CMD = cmd;
             CombatModule = combatModule;
             ConsumablesModule = consumablesModule;
             Inventory = inventory;
+            Lua = lua;
             NodeScanModule = nodeScanModule;
             ObjectManager = objectManager;
             PathModule = pathModule;
@@ -73,7 +75,10 @@ namespace Harvester.Engine
                         if ((!ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted
                             && Inventory.GetItemCount(CMD.mountName) > 0
                             && !ObjectManager.Player.IsSwimming))
+                        {
+                            Lua.Execute("DoEmote('stand')");
                             Inventory.GetItem(CMD.mountName).Use();
+                        }
 
                         if (ObjectManager.Player.IsMounted
                             || Inventory.GetItemCount(CMD.mountName) == 0
