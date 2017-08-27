@@ -43,7 +43,8 @@ namespace Harvester.Engine
                 && CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
                 CombatModule.Fight();
 
-            if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted)
+            if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted
+                || CombatModule.ClosestNPC().CreatureRank == Enums.CreatureRankTypes.Elite)
             {
                 if (!ObjectManager.Player.IsInCombat && !CombatModule.IsReadyToFight())
                 {
@@ -51,7 +52,7 @@ namespace Harvester.Engine
                         Inventory.GetItem(CMD.mountName).Use();
 
                     if (ConsumablesModule.SelectedFood() != null 
-                        && ObjectManager.Player.HealthPercent < 45 
+                        && ObjectManager.Player.HealthPercent < 60 
                         && !ObjectManager.Player.GotAura("Food"))
                         Inventory.GetItem(ConsumablesModule.SelectedFood().Name).Use();
 
