@@ -39,11 +39,10 @@ namespace Harvester.Engine
         public void ExecuteFlow()
         {
             if (ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted 
-                && CombatModule.ClosestCombattableNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
+                && CombatModule.ClosestCombattableNPC() != null)
                 CombatModule.Fight();
 
-            if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted
-                || CombatModule.ClosestCombattableNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
+            if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted)
             {
                 if (!ObjectManager.Player.IsInCombat && !CombatModule.IsReadyToFight())
                 {
@@ -57,8 +56,7 @@ namespace Harvester.Engine
                         ConsumablesModule.Drink();
                 }
 
-                if (CombatModule.IsReadyToFight() 
-                    || CombatModule.ClosestCombattableNPC().CreatureRank == Enums.CreatureRankTypes.Elite)
+                if (CombatModule.IsReadyToFight() || ObjectManager.Player.IsInCombat)
                 {
                     closestNode = NodeScanModule.ClosestNode();
 
@@ -70,21 +68,20 @@ namespace Harvester.Engine
 
                         if ((!ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted
                             && Inventory.GetItemCount(CMD.mountName) > 0
-                            && !ObjectManager.Player.IsSwimming)
-                            || CombatModule.ClosestCombattableNPC().CreatureRank == Enums.CreatureRankTypes.Elite)
+                            && !ObjectManager.Player.IsSwimming))
                             Inventory.GetItem(CMD.mountName).Use();
 
-                        if (ObjectManager.Player.IsMounted
+                        if ((ObjectManager.Player.IsMounted
                             || Inventory.GetItemCount(CMD.mountName) == 0
-                            || ObjectManager.Player.IsSwimming
-                            || CombatModule.ClosestCombattableNPC().CreatureRank == Enums.CreatureRankTypes.Elite)
+                            || (ObjectManager.Player.IsInCombat                            
+                            || ObjectManager.Player.IsSwimming)
+                            && CombatModule.ClosestCombattableNPC() == null))
                             PathModule.Traverse(PathModule.GetNextHotspot());
                     }
 
-                    if (closestNode != null 
-                        && CombatModule.ClosestCombattableNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
+                    if (closestNode != null )
                     {
-                        if (ObjectManager.Player.IsInCombat)
+                        if (ObjectManager.Player.IsInCombat && CombatModule.ClosestCombattableNPC() != null)
                         {
                             if (ObjectManager.Player.IsMounted)
                                 Inventory.GetItem(CMD.mountName).Use();
