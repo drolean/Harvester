@@ -40,7 +40,7 @@ namespace Harvester.Engine
         public void ExecuteFlow()
         {
             if (ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted 
-                && CombatModule.ClosestCombattableNPC() != null)
+                && CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
                 CombatModule.Fight();
 
             if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted)
@@ -74,17 +74,17 @@ namespace Harvester.Engine
                             && !ObjectManager.Player.IsSwimming))
                             Inventory.GetItem(CMD.mountName).Use();
 
-                        if ((ObjectManager.Player.IsMounted
+                        if (ObjectManager.Player.IsMounted
                             || Inventory.GetItemCount(CMD.mountName) == 0
                             || (ObjectManager.Player.IsInCombat                            
                             || ObjectManager.Player.IsSwimming)
-                            && CombatModule.ClosestCombattableNPC() == null))
+                            || CombatModule.ClosestNPC().CreatureRank == Enums.CreatureRankTypes.Elite)
                             PathModule.Traverse(PathModule.GetNextHotspot());
                     }
 
-                    if (closestNode != null )
+                    if (closestNode != null && CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
                     {
-                        if (ObjectManager.Player.IsInCombat && CombatModule.ClosestCombattableNPC() != null)
+                        if (ObjectManager.Player.IsInCombat)
                         {
                             if (ObjectManager.Player.IsMounted)
                                 Inventory.GetItem(CMD.mountName).Use();
