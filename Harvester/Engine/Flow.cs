@@ -37,12 +37,14 @@ namespace Harvester.Engine
 
         public void ExecuteFlow()
         {
-            if (ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted)
+            if (ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted 
+                && ObjectManager.Target.CreatureRank != ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
                 CombatModule.Fight();
 
-            if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted)
+            if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted
+                || ObjectManager.Target.CreatureRank == ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
             {
-                if (!CombatModule.IsReadyToFight())
+                if (!ObjectManager.Player.IsInCombat && !CombatModule.IsReadyToFight())
                 {
                     if (ObjectManager.Player.IsMounted)
                         Inventory.GetItem(CMD.mountName).Use();
@@ -53,7 +55,8 @@ namespace Harvester.Engine
                     if (ObjectManager.Player.ManaPercent < 45)
                         ConsumablesModule.Drink();
                 }
-                if (CombatModule.IsReadyToFight())
+                if (CombatModule.IsReadyToFight() 
+                    || ObjectManager.Target.CreatureRank == ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
                 {
                     closestNode = NodeScanModule.ClosestNode();
 
@@ -63,14 +66,16 @@ namespace Harvester.Engine
                             || ObjectManager.Player.CastingAsName == "Mining")
                             Spell.StopCasting();
 
-                        if (!ObjectManager.Player.IsMounted
+                        if ((!ObjectManager.Player.IsMounted
                             && Inventory.GetItemCount(CMD.mountName) > 0
                             && !ObjectManager.Player.IsSwimming)
+                            || ObjectManager.Target.CreatureRank == ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
                             Inventory.GetItem(CMD.mountName).Use();
 
                         if (ObjectManager.Player.IsMounted
                             || Inventory.GetItemCount(CMD.mountName) == 0
-                            || ObjectManager.Player.IsSwimming)
+                            || ObjectManager.Player.IsSwimming
+                            || ObjectManager.Target.CreatureRank == ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
                             PathModule.Traverse(PathModule.GetNextHotspot());
                     }
 
