@@ -22,9 +22,11 @@ namespace Harvester.Engine.Modules
         public WoWUnit ClosestCombattableNPC()
         {
             return ObjectManager.Npcs.Where(x => !x.IsCritter && !x.IsDead && (x.IsMob || x.IsPlayer)
-                && x.Reaction != Enums.UnitReaction.Friendly && x.NpcFlags == Enums.NpcFlags.UNIT_NPC_FLAG_NONE
-                && x.CreatureRank != Enums.CreatureRankTypes.Elite && x.Guid != ObjectManager.Player.Guid
-                && x.Flags == 0)
+                && x.Reaction != Enums.UnitReaction.Friendly && x.NpcFlags != Enums.NpcFlags.UNIT_NPC_FLAG_VENDOR
+                && x.NpcFlags != Enums.NpcFlags.UNIT_NPC_FLAG_FLIGHTMASTER && x.NpcFlags != Enums.NpcFlags.UNIT_NPC_FLAG_GOSSIP
+                && x.NpcFlags != Enums.NpcFlags.UNIT_NPC_FLAG_QUESTGIVER && x.NpcFlags != Enums.NpcFlags.UNIT_NPC_FLAG_REPAIR
+                && x.NpcFlags != Enums.NpcFlags.UNIT_NPC_FLAG_STABLEMASTER
+                && x.CreatureRank != Enums.CreatureRankTypes.Elite && x.Guid != ObjectManager.Player.Guid)
                 .OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position))
                 .FirstOrDefault();
         }
