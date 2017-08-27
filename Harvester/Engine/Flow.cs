@@ -2,6 +2,7 @@
 using Harvester.Engine.Modules;
 using Harvester.GUI;
 using System;
+using ZzukBot.Constants;
 using ZzukBot.Game.Statics;
 using ZzukBot.Objects;
 
@@ -38,25 +39,26 @@ namespace Harvester.Engine
         public void ExecuteFlow()
         {
             if (ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted 
-                && ObjectManager.Target.CreatureRank != ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
+                && CombatModule.ClosestCombattableNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
                 CombatModule.Fight();
 
             if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted
-                || ObjectManager.Target.CreatureRank == ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
+                || CombatModule.ClosestCombattableNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
             {
                 if (!ObjectManager.Player.IsInCombat && !CombatModule.IsReadyToFight())
                 {
                     if (ObjectManager.Player.IsMounted)
                         Inventory.GetItem(CMD.mountName).Use();
 
-                    if (ObjectManager.Player.HealthPercent < 45)
+                    if (ObjectManager.Player.HealthPercent < 45 && !ObjectManager.Player.GotAura("Food"))
                         ConsumablesModule.Eat();
 
-                    if (ObjectManager.Player.ManaPercent < 45)
+                    if (ObjectManager.Player.ManaPercent < 45 && !ObjectManager.Player.GotAura("Drink"))
                         ConsumablesModule.Drink();
                 }
+
                 if (CombatModule.IsReadyToFight() 
-                    || ObjectManager.Target.CreatureRank == ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
+                    || CombatModule.ClosestCombattableNPC().CreatureRank == Enums.CreatureRankTypes.Elite)
                 {
                     closestNode = NodeScanModule.ClosestNode();
 
@@ -66,20 +68,21 @@ namespace Harvester.Engine
                             || ObjectManager.Player.CastingAsName == "Mining")
                             Spell.StopCasting();
 
-                        if ((!ObjectManager.Player.IsMounted
+                        if ((!ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted
                             && Inventory.GetItemCount(CMD.mountName) > 0
                             && !ObjectManager.Player.IsSwimming)
-                            || ObjectManager.Target.CreatureRank == ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
+                            || CombatModule.ClosestCombattableNPC().CreatureRank == Enums.CreatureRankTypes.Elite)
                             Inventory.GetItem(CMD.mountName).Use();
 
                         if (ObjectManager.Player.IsMounted
                             || Inventory.GetItemCount(CMD.mountName) == 0
                             || ObjectManager.Player.IsSwimming
-                            || ObjectManager.Target.CreatureRank == ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
+                            || CombatModule.ClosestCombattableNPC().CreatureRank == Enums.CreatureRankTypes.Elite)
                             PathModule.Traverse(PathModule.GetNextHotspot());
                     }
 
-                    if (closestNode != null)
+                    if (closestNode != null 
+                        && CombatModule.ClosestCombattableNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
                     {
                         if (ObjectManager.Player.IsInCombat)
                         {
@@ -91,7 +94,7 @@ namespace Harvester.Engine
 
                         if (nodeGuardian != null)
                         {
-                            if (nodeGuardian.CreatureRank == ZzukBot.Constants.Enums.CreatureRankTypes.Elite)
+                            if (nodeGuardian.CreatureRank == Enums.CreatureRankTypes.Elite)
                             {
                                 NodeScanModule.blacklist.Add(closestNode.Guid);
 
