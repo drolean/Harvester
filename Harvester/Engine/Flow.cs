@@ -42,77 +42,91 @@ namespace Harvester.Engine
 
             if (!ObjectManager.Player.IsInCombat || ObjectManager.Player.IsMounted)
             {
-                closestNode = NodeScanModule.ClosestNode();
- 
-                if (closestNode == null)
+                if (!CombatModule.IsReadyToFight())
                 {
-                    if (ObjectManager.Player.CastingAsName == "Herb Gathering"
-                        || ObjectManager.Player.CastingAsName == "Mining")
-                        Spell.StopCasting();
-
-                    if (!ObjectManager.Player.IsMounted
-                        && Inventory.GetItemCount(CMD.mountName) > 0
-                        && !ObjectManager.Player.IsSwimming)
+                    if (ObjectManager.Player.IsMounted)
                         Inventory.GetItem(CMD.mountName).Use();
 
-                    if (ObjectManager.Player.IsMounted
-                        || Inventory.GetItemCount(CMD.mountName) == 0
-                        || ObjectManager.Player.IsSwimming)
-                         PathModule.Traverse(PathModule.GetNextHotspot());
+                    if (ObjectManager.Player.HealthPercent < 45)
+                        ConsumablesModule.Eat();
+
+                    if (ObjectManager.Player.ManaPercent < 45)
+                        ConsumablesModule.Drink();
                 }
-
-                if (closestNode != null)
+                if (CombatModule.IsReadyToFight())
                 {
-                    if (ObjectManager.Player.IsInCombat)
+                    closestNode = NodeScanModule.ClosestNode();
+
+                    if (closestNode == null)
                     {
-                        if (ObjectManager.Player.IsMounted)
-                            Inventory.GetItem(CMD.mountName).Use();
-                    }
-                    nodeGuardian = NodeScanModule.NodeGuardian(closestNode);
+                        if (ObjectManager.Player.CastingAsName == "Herb Gathering"
+                            || ObjectManager.Player.CastingAsName == "Mining")
+                            Spell.StopCasting();
 
-                    if (nodeGuardian != null)
-                    {
-                        if (ObjectManager.Player.IsMounted)
-                            Inventory.GetItem(CMD.mountName).Use();
-
-                        ObjectManager.Player.SetTarget(nodeGuardian);
-
-                        if (ObjectManager.Target == nodeGuardian)
-                            CombatModule.Pull(ObjectManager.Target);
-
-                        return;
-                    }
-
-                    if (closestNode.Position.DistanceToPlayer() > 3
-                        && (ObjectManager.Player.CastingAsName == "Herb Gathering"
-                        || ObjectManager.Player.CastingAsName == "Mining"))
-                        Spell.StopCasting();
-
-                    if (closestNode.Position.DistanceToPlayer() <= 3)
-                    {
-                        if (ObjectManager.Player.IsMounted)
+                        if (!ObjectManager.Player.IsMounted
+                            && Inventory.GetItemCount(CMD.mountName) > 0
+                            && !ObjectManager.Player.IsSwimming)
                             Inventory.GetItem(CMD.mountName).Use();
 
-                        ObjectManager.Player.CtmStopMovement();
-
-                        if (ObjectManager.Player.CastingAsName != "Herb Gathering" 
-                            && ObjectManager.Player.CastingAsName != "Mining")
-                            closestNode.Interact(true);
-
-                        return;
+                        if (ObjectManager.Player.IsMounted
+                            || Inventory.GetItemCount(CMD.mountName) == 0
+                            || ObjectManager.Player.IsSwimming)
+                            PathModule.Traverse(PathModule.GetNextHotspot());
                     }
 
-                    PathModule.Traverse(NodeScanModule.ClosestNode().Position);
-                    PathModule.index = -1;
-                    PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString()
-                        + Convert.ToInt32(ObjectManager.Player.Position.Y).ToString()
-                        + Convert.ToInt32(ObjectManager.Player.Position.Z).ToString());
-
-                    if (PathModule.Stuck())
+                    if (closestNode != null)
                     {
-                        NodeScanModule.blacklist.Add(closestNode.Guid);
-                        logger.LogOne(closestNode.Guid.ToString());
-                        PathModule.playerPositions.Clear();
+                        if (ObjectManager.Player.IsInCombat)
+                        {
+                            if (ObjectManager.Player.IsMounted)
+                                Inventory.GetItem(CMD.mountName).Use();
+                        }
+                        nodeGuardian = NodeScanModule.NodeGuardian(closestNode);
+
+                        if (nodeGuardian != null)
+                        {
+                            if (ObjectManager.Player.IsMounted)
+                                Inventory.GetItem(CMD.mountName).Use();
+
+                            ObjectManager.Player.SetTarget(nodeGuardian);
+
+                            if (ObjectManager.Target == nodeGuardian)
+                                CombatModule.Pull(ObjectManager.Target);
+
+                            return;
+                        }
+
+                        if (closestNode.Position.DistanceToPlayer() > 3
+                            && (ObjectManager.Player.CastingAsName == "Herb Gathering"
+                            || ObjectManager.Player.CastingAsName == "Mining"))
+                            Spell.StopCasting();
+
+                        if (closestNode.Position.DistanceToPlayer() <= 3)
+                        {
+                            if (ObjectManager.Player.IsMounted)
+                                Inventory.GetItem(CMD.mountName).Use();
+
+                            ObjectManager.Player.CtmStopMovement();
+
+                            if (ObjectManager.Player.CastingAsName != "Herb Gathering"
+                                && ObjectManager.Player.CastingAsName != "Mining")
+                                closestNode.Interact(true);
+
+                            return;
+                        }
+
+                        PathModule.Traverse(NodeScanModule.ClosestNode().Position);
+                        PathModule.index = -1;
+                        PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString()
+                            + Convert.ToInt32(ObjectManager.Player.Position.Y).ToString()
+                            + Convert.ToInt32(ObjectManager.Player.Position.Z).ToString());
+
+                        if (PathModule.Stuck())
+                        {
+                            NodeScanModule.blacklist.Add(closestNode.Guid);
+                            logger.LogOne(closestNode.Guid.ToString());
+                            PathModule.playerPositions.Clear();
+                        }
                     }
                 }
             }
