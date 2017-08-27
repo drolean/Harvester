@@ -62,7 +62,7 @@ namespace Harvester.Engine
                         //ConsumablesModule.Drink();
                 }
 
-                if (CombatModule.IsReadyToFight() || ObjectManager.Player.IsInCombat)
+                if (CombatModule.IsReadyToFight() || !ObjectManager.Player.IsInCombat)
                 {
                     closestNode = NodeScanModule.ClosestNode();
 
@@ -88,9 +88,10 @@ namespace Harvester.Engine
                             PathModule.Traverse(PathModule.GetNextHotspot());
                     }
 
-                    if (closestNode != null && CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
+                    if (closestNode != null)
                     {
-                        if (ObjectManager.Player.IsInCombat)
+                        if (ObjectManager.Player.IsInCombat 
+                            && CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
                         {
                             if (ObjectManager.Player.IsMounted)
                                 Inventory.GetItem(CMD.mountName).Use();
