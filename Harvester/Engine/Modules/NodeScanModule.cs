@@ -60,7 +60,7 @@ namespace Harvester.Engine.Modules
         {
             Location nodePosition = closestNode.Position;
 
-            WoWUnit nodeGuardian = ObjectManager.Npcs.Where(x => !x.IsCritter && !x.IsDead && x.Flags == 0
+            WoWUnit nodeGuardian = ObjectManager.Npcs.Where(x => !x.IsCritter && !x.IsDead
                     && (x.Reaction & Enums.UnitReaction.Friendly) != Enums.UnitReaction.Friendly)
                     .OrderBy(y => ObjectManager.Player.Position.GetDistanceTo(y.Position)).FirstOrDefault();
 
@@ -76,7 +76,7 @@ namespace Harvester.Engine.Modules
                 d = Convert.ToSingle(Math.Sqrt(Math.Pow(nodeGuardianPositionX - nodePositionX, 2)
                     + Math.Pow(nodeGuardianPositionY - nodePositionY, 2)));
 
-                if (d < 10)
+                if (d < 15)
                     return nodeGuardian;
             }
 

@@ -27,7 +27,7 @@ namespace Harvester.Engine.Modules
             "Conjured Sweet Roll", "Conjured Cinnamon Roll"
         });
 
-        public string[] drinkNames =
+        public List<string> drinkNames = new List<string>(new string[]
         {
             "Refreshing Spring Water", "Conjured Water",
             "Ice Cold Milk", "Conjured Fresh Water",
@@ -35,17 +35,16 @@ namespace Harvester.Engine.Modules
             "Moonberry Juice", "Conjured Mineral Water",
             "Sweet Nectar", "Conjured Sparkling Water",
             "Morning Glory Dew", "Conjured Crystal Water",
-        };
+        });
 
-        public WoWItem SelectedFood()
+        public WoWItem Food()
         {
             return Inventory.GetItem(foodNames.Where(x => Inventory.GetItemCount(x) > 0).FirstOrDefault());
         }
 
-        public void Drink()
+        public WoWItem Drink()
         {
-            List<string> drinks = drinkNames.ToList();
-            Inventory.GetItem(drinks.Where(x => Inventory.GetItemCount(x) > 0).FirstOrDefault()).Use();
+            return Inventory.GetItem(drinkNames.Where(x => Inventory.GetItemCount(x) > 0).FirstOrDefault());
         }
     }
 }
