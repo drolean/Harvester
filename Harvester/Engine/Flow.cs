@@ -158,6 +158,28 @@ namespace Harvester.Engine
                             return;
                         }
 
+                        if (closestNode.Position.DistanceToPlayer() > 3
+                            && (ObjectManager.Player.CastingAsName == "Herb Gathering"
+                            || ObjectManager.Player.CastingAsName == "Mining"))
+                            Spell.StopCasting();
+
+                        if (closestNode.Position.DistanceToPlayer() <= 3)
+                        {
+                            if (ObjectManager.Player.IsMounted)
+                                Inventory.GetItem(CMD.mountName).Use();
+
+                            ObjectManager.Player.CtmStopMovement();
+
+                            if (ObjectManager.Player.CastingAsName != "Herb Gathering"
+                                && ObjectManager.Player.CastingAsName != "Mining")
+                            {
+                                Lua.Execute("DoEmote('stand')");
+                                closestNode.Interact(true);
+                            }
+
+                            return;
+                        }
+
                         PathModule.Traverse(NodeScanModule.ClosestNode().Position);
                         PathModule.index = -1;
                         PathModule.playerPositions.Add(Convert.ToInt32(ObjectManager.Player.Position.X).ToString()
