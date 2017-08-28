@@ -41,6 +41,12 @@ namespace Harvester.Engine
 
         public void ExecuteFlow()
         {
+            closestNode = NodeScanModule.ClosestNode();
+
+            if (ObjectManager.Player.IsInCombat && ObjectManager.Player.IsMounted
+                && closestNode != null && CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
+                Inventory.GetItem(CMD.mountName).Use();
+
             if (ObjectManager.Player.IsInCombat && !ObjectManager.Player.IsMounted 
                 && CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
                 CombatModule.Fight();
@@ -62,10 +68,8 @@ namespace Harvester.Engine
                         //ConsumablesModule.Drink();
                 }
 
-                if (CombatModule.IsReadyToFight() && !ObjectManager.Player.IsInCombat)
+                if (CombatModule.IsReadyToFight())
                 {
-                    closestNode = NodeScanModule.ClosestNode();
-
                     if (closestNode == null)
                     {
                         if (ObjectManager.Player.CastingAsName == "Herb Gathering"
@@ -84,19 +88,13 @@ namespace Harvester.Engine
                             || Inventory.GetItemCount(CMD.mountName) == 0
                             || (ObjectManager.Player.IsInCombat                            
                             || ObjectManager.Player.IsSwimming)
-                            || CombatModule.ClosestNPC().CreatureRank == Enums.CreatureRankTypes.Elite)
+                            || (ObjectManager.Player.IsInCombat 
+                            && CombatModule.ClosestNPC().CreatureRank == Enums.CreatureRankTypes.Elite))
                             PathModule.Traverse(PathModule.GetNextHotspot());
                     }
 
                     if (closestNode != null)
                     {
-                        if (ObjectManager.Player.IsInCombat 
-                            && CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite)
-                        {
-                            if (ObjectManager.Player.IsMounted)
-                                Inventory.GetItem(CMD.mountName).Use();
-                        }
-
                         nodeGuardian = NodeScanModule.NodeGuardian(closestNode);
 
                         if (nodeGuardian != null)
