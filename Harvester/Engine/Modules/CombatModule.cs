@@ -22,8 +22,8 @@ namespace Harvester.Engine.Modules
         public WoWUnit EliteInCombatNPC()
         {
             return ObjectManager.Npcs.Where(x => x.IsInCombat && x.TargetGuid == ObjectManager.Player.Guid
-                && (x.CreatureRank & Enums.CreatureRankTypes.Elite) == Enums.CreatureRankTypes.Elite
-                || (x.CreatureRank & Enums.CreatureRankTypes.RareElite) == Enums.CreatureRankTypes.RareElite)
+                && ((x.CreatureRank & Enums.CreatureRankTypes.Elite) == Enums.CreatureRankTypes.Elite
+                || (x.CreatureRank & Enums.CreatureRankTypes.RareElite) == Enums.CreatureRankTypes.RareElite))
                 .OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position))
                 .FirstOrDefault();
         }
