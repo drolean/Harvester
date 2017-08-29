@@ -192,6 +192,7 @@ namespace Harvester.Engine
                         {
                             NodeScanModule.blacklist.Add(closestNode.Guid);
                             PathModule.playerPositions.Clear();
+                            ObjectManager.Player.Jump();
                         }
                     }
                 }
