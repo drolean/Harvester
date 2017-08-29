@@ -19,9 +19,12 @@ namespace Harvester.Engine.Modules
             PathModule = pathModule;
         }
 
-        public WoWUnit ClosestNPC()
+        public WoWUnit EliteInCombatNPC()
         {
-            return ObjectManager.Npcs.OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position))
+            return ObjectManager.Npcs.Where(x => x.IsInCombat && x.TargetGuid == ObjectManager.Player.Guid
+                && (x.CreatureRank & Enums.CreatureRankTypes.Elite) == Enums.CreatureRankTypes.Elite
+                || (x.CreatureRank & Enums.CreatureRankTypes.RareElite) == Enums.CreatureRankTypes.RareElite)
+                .OrderBy(x => ObjectManager.Player.Position.GetDistanceTo(x.Position))
                 .FirstOrDefault();
         }
 

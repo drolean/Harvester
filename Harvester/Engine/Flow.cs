@@ -48,19 +48,15 @@ namespace Harvester.Engine
                 if (closestNode == null)
                 {
                     if (ObjectManager.Player.IsMounted)
-                    {
                         PathModule.Traverse(PathModule.GetNextHotspot());
-                    }
 
                     if (!ObjectManager.Player.IsMounted)
                     {
-                        if (CombatModule.ClosestNPC().CreatureRank == Enums.CreatureRankTypes.Elite
-                            || CombatModule.ClosestNPC().CreatureRank == Enums.CreatureRankTypes.RareElite)
-                            PathModule.Traverse(PathModule.GetNextHotspot());
-
-                        if (CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite
-                            || CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.RareElite)
+                        if (CombatModule.EliteInCombatNPC() == null)
                             CombatModule.Fight();
+
+                        if (CombatModule.EliteInCombatNPC() != null)
+                            PathModule.Traverse(PathModule.GetNextHotspot());
                     }
                 }
 
@@ -68,28 +64,34 @@ namespace Harvester.Engine
                 {
                     nodeGuardian = NodeScanModule.NodeGuardian(closestNode);
 
-                    if (nodeGuardian.CreatureRank == Enums.CreatureRankTypes.Elite
-                        || nodeGuardian.CreatureRank == Enums.CreatureRankTypes.RareElite)
+                    if (nodeGuardian != null)
                     {
-                        NodeScanModule.blacklist.Add(closestNode.Guid);
+                        if ((nodeGuardian.CreatureRank & Enums.CreatureRankTypes.Elite) == Enums.CreatureRankTypes.Elite
+                            || (nodeGuardian.CreatureRank & Enums.CreatureRankTypes.RareElite) == Enums.CreatureRankTypes.RareElite)
+                        {
+                            NodeScanModule.blacklist.Add(closestNode.Guid);
 
-                        return;
+                            return;
+                        }
                     }
 
                     if (ObjectManager.Player.IsMounted)
                     {
-                        if (CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite
-                            || CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.RareElite)
+                        if (CombatModule.EliteInCombatNPC() == null)
 				            Inventory.GetItem(CMD.mountName).Use();
+
+                        if (CombatModule.EliteInCombatNPC() != null)
+                            PathModule.Traverse(NodeScanModule.ClosestNode().Position);
                     }
 
                     if (!ObjectManager.Player.IsMounted)
                     {
-                        if (CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.Elite
-                            || CombatModule.ClosestNPC().CreatureRank != Enums.CreatureRankTypes.RareElite)
+                        if (CombatModule.EliteInCombatNPC() == null)
                             CombatModule.Fight();
-                    }
 
+                        if (CombatModule.EliteInCombatNPC() != null)
+                            PathModule.Traverse(NodeScanModule.ClosestNode().Position);
+                    }
                 }
             }
 
@@ -139,8 +141,8 @@ namespace Harvester.Engine
 
                         if (nodeGuardian != null)
                         {
-                            if (nodeGuardian.CreatureRank == Enums.CreatureRankTypes.Elite
-                                || nodeGuardian.CreatureRank == Enums.CreatureRankTypes.RareElite)
+                            if ((nodeGuardian.CreatureRank & Enums.CreatureRankTypes.Elite) == Enums.CreatureRankTypes.Elite
+                            || (nodeGuardian.CreatureRank & Enums.CreatureRankTypes.RareElite) == Enums.CreatureRankTypes.RareElite)
                             {
                                 NodeScanModule.blacklist.Add(closestNode.Guid);
 
