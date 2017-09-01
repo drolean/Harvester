@@ -41,6 +41,7 @@ namespace Harvester.Engine
 
         public void ExecuteFlow()
         {
+            logger.LogOne(ObjectManager.Player.Position.ToString());
             closestNode = NodeScanModule.ClosestNode();
 
             if (ObjectManager.Player.IsInCombat)
@@ -123,7 +124,8 @@ namespace Harvester.Engine
 
                         if (!ObjectManager.Player.IsMounted
                             && Inventory.GetItemCount(CMD.mountName) > 0
-                            && !ObjectManager.Player.IsSwimming)
+                            && !ObjectManager.Player.IsSwimming
+                            && ObjectManager.Player.CastingAsName == "")
                         {
                             Lua.Execute("DoEmote('stand')");
                             Inventory.GetItem(CMD.mountName).Use();

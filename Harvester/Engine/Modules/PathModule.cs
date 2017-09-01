@@ -52,7 +52,7 @@ namespace Harvester.Engine.Modules
 
             if (index == -1)
             {
-                Location closestHotspot = ProfileLoader.hotspots.OrderBy(x => playerPos.GetDistanceTo(x)).First();
+                Location closestHotspot = ProfileLoader.hotspots.OrderBy(x => playerPos.GetDistanceTo(x)).FirstOrDefault();
                 index = ProfileLoader.hotspots.FindIndex(x => x.Equals(closestHotspot));
             }
 
@@ -60,7 +60,7 @@ namespace Harvester.Engine.Modules
                 index++;
 
             if (index >= ProfileLoader.hotspots.Count())
-                index = 0;
+                index = -1;
 
             return ProfileLoader.hotspots[index];
         }
