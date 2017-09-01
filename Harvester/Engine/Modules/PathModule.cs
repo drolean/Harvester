@@ -29,11 +29,11 @@ namespace Harvester.Engine.Modules
 
             Location[] pathArray = Navigation.CalculatePath(player.MapId, playerPos, destination, true);
             List<Location> pathList = pathArray.ToList();
-            Location closestWaypoint = pathList.OrderBy(x => playerPos.GetDistanceTo(x)).First();
+            Location closestWaypoint = pathList.OrderBy(x => playerPos.GetDistanceTo(x)).FirstOrDefault();
             int index = pathList.FindIndex(x => x.Equals(closestWaypoint)) + 1;
 
-            /*if (index > pathList.Count() - 1)
-                index = 1;*/
+            if (index > pathList.Count() - 1)
+                index = 1;
 
             return pathList[index];
         }
