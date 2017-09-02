@@ -1,5 +1,4 @@
-﻿using Harvester.Debugger;
-using Harvester.Engine.Modules;
+﻿using Harvester.Engine.Modules;
 using Harvester.GUI;
 using System;
 using ZzukBot.Constants;
@@ -10,7 +9,6 @@ namespace Harvester.Engine
 {
     public class Flow
     {
-        private CMD CMD { get; }
         private CombatModule CombatModule { get; }
         private ConsumablesModule ConsumablesModule { get; }
         private Inventory Inventory { get; }
@@ -20,11 +18,10 @@ namespace Harvester.Engine
         private PathModule PathModule { get; }
         private Spell Spell { get; }
 
-        public Flow(CMD cmd, CombatModule combatModule, ConsumablesModule consumablesModule, 
+        public Flow(CombatModule combatModule, ConsumablesModule consumablesModule, 
             Inventory inventory, Lua lua, NodeScanModule nodeScanModule, 
             ObjectManager objectManager, PathModule pathModule, Spell spell)
         {
-            CMD = cmd;
             CombatModule = combatModule;
             ConsumablesModule = consumablesModule;
             Inventory = inventory;
@@ -35,13 +32,11 @@ namespace Harvester.Engine
             Spell = spell;
         }
 
-        Logger logger = new Logger();
         WoWGameObject closestNode;
         WoWUnit nodeGuardian;
 
         public void ExecuteFlow()
         {
-            logger.LogOne(ObjectManager.Player.Position.ToString());
             closestNode = NodeScanModule.ClosestNode();
 
             if (ObjectManager.Player.IsInCombat)
@@ -79,7 +74,7 @@ namespace Harvester.Engine
                     if (ObjectManager.Player.IsMounted)
                     {
                         if (CombatModule.EliteInCombatNPC() == null)
-				            Inventory.GetItem(CMD.mountName).Use();
+				            Inventory.GetItem(ConsumablesModule.Mount().Name).Use();
 
                         if (CombatModule.EliteInCombatNPC() != null)
                             PathModule.Traverse(NodeScanModule.ClosestNode().Position);
@@ -101,7 +96,7 @@ namespace Harvester.Engine
                 if (!CombatModule.IsReadyToFight())
                 {
                     if (ObjectManager.Player.IsMounted)
-                        Inventory.GetItem(CMD.mountName).Use();
+                        Inventory.GetItem(ConsumablesModule.Mount().Name).Use();
 
                     if (ConsumablesModule.Food() != null
                         && ObjectManager.Player.HealthPercent < 60
@@ -123,16 +118,16 @@ namespace Harvester.Engine
                             Spell.StopCasting();
 
                         if (!ObjectManager.Player.IsMounted
-                            && Inventory.GetItemCount(CMD.mountName) > 0
+                            && Inventory.GetItemCount(ConsumablesModule.Mount().Name) > 0
                             && !ObjectManager.Player.IsSwimming
                             && ObjectManager.Player.CastingAsName == "")
                         {
                             Lua.Execute("DoEmote('stand')");
-                            Inventory.GetItem(CMD.mountName).Use();
+                            Inventory.GetItem(ConsumablesModule.Mount().Name).Use();
                         }
 
                         if (ObjectManager.Player.IsMounted
-                            || Inventory.GetItemCount(CMD.mountName) == 0
+                            || Inventory.GetItemCount(ConsumablesModule.Mount().Name) == 0
                             || ObjectManager.Player.IsSwimming)
                             PathModule.Traverse(PathModule.GetNextHotspot());
                     }
@@ -152,7 +147,7 @@ namespace Harvester.Engine
                             }
 
                             if (ObjectManager.Player.IsMounted)
-                                Inventory.GetItem(CMD.mountName).Use();
+                                Inventory.GetItem(ConsumablesModule.Mount().Name).Use();
 
                             ObjectManager.Player.SetTarget(nodeGuardian);
 
@@ -170,7 +165,7 @@ namespace Harvester.Engine
                         if (closestNode.Position.DistanceToPlayer() <= 3)
                         {
                             if (ObjectManager.Player.IsMounted)
-                                Inventory.GetItem(CMD.mountName).Use();
+                                Inventory.GetItem(ConsumablesModule.Mount().Name).Use();
 
                             ObjectManager.Player.CtmStopMovement();
 

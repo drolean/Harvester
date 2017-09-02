@@ -18,7 +18,6 @@ namespace Harvester.GUI
 
         public List<string> herbCheckedBoxes = new List<string> { };
         public List<string> mineCheckedBoxes = new List<string> { };
-        public string mountName;
 
         private void LoadProfileButton_Click(object sender, EventArgs e)
             => ProfileLoader.LoadProfile(LoadProfileOFD);
@@ -42,11 +41,6 @@ namespace Harvester.GUI
 
             foreach (var item in Mines.CheckedItems)
                 mineCheckedBoxes.Add(item.ToString());
-        }
-
-        private void MountText_TextChanged(object sender, EventArgs e)
-        {
-            mountName = MountText.Text;
         }
     }
 }
