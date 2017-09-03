@@ -1,5 +1,4 @@
 ﻿using Harvester.Engine.Modules;
-using Harvester.GUI;
 using System;
 using ZzukBot.Constants;
 using ZzukBot.Game.Statics;
