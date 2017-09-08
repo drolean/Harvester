@@ -1,4 +1,5 @@
 ﻿using Harvester.Engine.Modules;
+using Harvester.GUI;
 using System;
 using ZzukBot.Constants;
 using ZzukBot.Game.Statics;
@@ -8,6 +9,7 @@ namespace Harvester.Engine
 {
     public class Flow
     {
+        private CMD CMD { get; }
         private CombatModule CombatModule { get; }
         private ConsumablesModule ConsumablesModule { get; }
         private Inventory Inventory { get; }
@@ -17,10 +19,11 @@ namespace Harvester.Engine
         private PathModule PathModule { get; }
         private Spell Spell { get; }
 
-        public Flow(CombatModule combatModule, ConsumablesModule consumablesModule, 
+        public Flow(CMD cmd, CombatModule combatModule, ConsumablesModule consumablesModule, 
             Inventory inventory, Lua lua, NodeScanModule nodeScanModule, 
             ObjectManager objectManager, PathModule pathModule, Spell spell)
         {
+            CMD = cmd;
             CombatModule = combatModule;
             ConsumablesModule = consumablesModule;
             Inventory = inventory;
@@ -117,6 +120,7 @@ namespace Harvester.Engine
                             Spell.StopCasting();
 
                         if (!ObjectManager.Player.IsMounted
+                            && !CMD.mountDisabled
                             && Inventory.GetItemCount(ConsumablesModule.Mount().Name) > 0
                             && !ObjectManager.Player.IsSwimming
                             && ObjectManager.Player.CastingAsName == "")

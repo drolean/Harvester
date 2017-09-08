@@ -33,6 +33,7 @@
             this.LoadProfileOFD = new System.Windows.Forms.OpenFileDialog();
             this.Herbs = new System.Windows.Forms.CheckedListBox();
             this.Mines = new System.Windows.Forms.CheckedListBox();
+            this.disableMountBox = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // LoadProfileButton
@@ -116,11 +117,23 @@
             this.Mines.TabIndex = 2;
             this.Mines.MouseLeave += new System.EventHandler(this.MineCheckListBox_MouseLeave);
             // 
+            // disableMountBox
+            // 
+            this.disableMountBox.AutoSize = true;
+            this.disableMountBox.Location = new System.Drawing.Point(13, 288);
+            this.disableMountBox.Name = "disableMountBox";
+            this.disableMountBox.Size = new System.Drawing.Size(94, 17);
+            this.disableMountBox.TabIndex = 3;
+            this.disableMountBox.Text = "Disable Mount";
+            this.disableMountBox.UseVisualStyleBackColor = true;
+            this.disableMountBox.MouseLeave += new System.EventHandler(this.disableMount_MouseLeave);
+            // 
             // CMD
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(375, 317);
+            this.Controls.Add(this.disableMountBox);
             this.Controls.Add(this.Mines);
             this.Controls.Add(this.Herbs);
             this.Controls.Add(this.LoadProfileButton);
@@ -128,6 +141,7 @@
             this.Name = "CMD";
             this.Text = "Harvester";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -137,5 +151,6 @@
         private System.Windows.Forms.OpenFileDialog LoadProfileOFD;
         private System.Windows.Forms.CheckedListBox Herbs;
         private System.Windows.Forms.CheckedListBox Mines;
+        private System.Windows.Forms.CheckBox disableMountBox;
     }
 }

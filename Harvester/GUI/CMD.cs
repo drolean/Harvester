@@ -18,6 +18,7 @@ namespace Harvester.GUI
 
         public List<string> herbCheckedBoxes = new List<string> { };
         public List<string> mineCheckedBoxes = new List<string> { };
+        public bool mountDisabled;
 
         private void LoadProfileButton_Click(object sender, EventArgs e)
             => ProfileLoader.LoadProfile(LoadProfileOFD);
@@ -41,6 +42,14 @@ namespace Harvester.GUI
 
             foreach (var item in Mines.CheckedItems)
                 mineCheckedBoxes.Add(item.ToString());
+        }
+
+        private void disableMount_MouseLeave(object sender, EventArgs e)
+        {
+            if (disableMountBox.Checked)
+                mountDisabled = true;
+            else
+                mountDisabled = false;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Harvester
             r.Add(new PathModule(r.Get<Navigation>(), r.Get<ObjectManager>(), r.Get<ProfileLoader>()));
             r.Add(new CombatModule(r.Get<CustomClasses>(), r.Get<ObjectManager>(), r.Get<PathModule>()));
             r.Add(new NodeScanModule(r.Get<CMD>(), r.Get<ObjectManager>(), r.Get<Skills>()));
-            r.Add(new Flow(r.Get<CombatModule>(), r.Get<ConsumablesModule>(), 
+            r.Add(new Flow(r.Get<CMD>(), r.Get<CombatModule>(), r.Get<ConsumablesModule>(), 
                 r.Get<Inventory>(), r.Get<Lua>(), r.Get<NodeScanModule>(), 
                 r.Get<ObjectManager>(), r.Get<PathModule>(), r.Get<Spell>()));
             r.Add(new Controller(r.Get<Flow>(), r.Get<Inventory>(), r.Get<ObjectManager>(), 
@@ -46,7 +46,7 @@ namespace Harvester
 
         public string Author { get; } = "krycess";
         public string Name { get; } = "Harvester";
-        public Version Version { get; } = new Version(1, 0, 11, 62);
+        public Version Version { get; } = new Version(1, 0, 11, 63);
 
         public void ShowGui()
         {
