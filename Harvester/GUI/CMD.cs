@@ -48,7 +48,7 @@ namespace Harvester.GUI
         {
             if (disableMountBox.Checked)
                 mountDisabled = true;
-            else
+            if (!disableMountBox.Checked)
                 mountDisabled = false;
         }
     }
